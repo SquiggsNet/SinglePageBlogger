@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>SinglePage Blogging</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+		<div id="loader"></div>
+		<span id="selectedId"></span>
+		<span id="selectedSort"></span>
+		<span id="selectedOrder"></span>
+		<div class="container" id="app">
+			<h1>Single Page Blogging</h1>
+			<div class="mBottom" id="submissionApp">
+				<input type="text" class="mBottom form-control input-lg" id="titleInput" placeholder="Blog Title" required>
+				<textarea class="mBottom form-control input-lg" name="bodyInput" id="bodyInput" placeholder="Post Body" required></textarea>
+				<input type="button" class="mBottom btn btn-primary" id="new" value="New Post">
+				<input type="submit" class="mBottom btn btn-success pull-right" id="submit">
+			<div>
+			<div id="displayApp">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th id="colTitle"><span class="glyphicon glyphicon-menu-down"></span> Title</th>
+							<th id="colBody"><span class="glyphicon glyphicon-menu-down"></span> Body</th>
+							<th id="colDate"><span class="glyphicon glyphicon-menu-down"></span> Date</th>
+							<th id="colAction">Action</th>
+						</tr>
+					</thead>
+					<tbody id="list">
+					</tbody>
+				</table>
+			<div>
+		</div>
+		
+		<label id="info"></label>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+		<script src="js/scripts.js"></script>
+	</body>
+<html>
