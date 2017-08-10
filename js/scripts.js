@@ -93,15 +93,19 @@ function performAjaxAll(){
 	var order = $("#selectedOrder")[0].innerHTML;
 	var getUrl = "";
 	
-	if (sort != "" && order != ""){
-		getUrl = "http://localhost:3000/posts?_sort="+sort+"&_order="+order;
-	}else{
-		getUrl = "http://localhost:3000/posts";
-	}
 	
+	if (sort != "" && order != ""){
+		// getUrl = "https://singlepageblogger.firebaseio.com/posts/.json?_sort="+sort+"&_order="+order;
+		getUrl = 'https://singlepageblogger.firebaseio.com/posts/.json?orderBy="'+sort+'"';
+	}else{
+		getUrl = "https://singlepageblogger.firebaseio.com/posts/.json";
+	}
+	console.log(getUrl);
 	$.ajax({
 		url: getUrl,
-		method: "GET",
+		type: "GET",
+		dataType:"json",
+		headers: {"Access-Control-Allow-Headers": "x-requested-with"},
 		success: function(result){
 			displayAll(result);
 		},
@@ -114,11 +118,8 @@ function performAjaxAll(){
 
 function performAjaxSaveNew(saveData){
 	$.ajax({
-		url: "http://localhost:3000/posts/",
-		method: "POST",
-		headers: {
-		"content-type": "application/json",
-		},
+		url: "https://singlepageblogger.firebaseio.com/posts/.json",
+		type: "POST",
 		data: saveData,
 		success: function(result){
 			$("#selectedId").html(result.id);
@@ -133,11 +134,8 @@ function performAjaxSaveNew(saveData){
 
 function performAjaxSaveEdit(saveData, id){
 	$.ajax({
-		url: "http://localhost:3000/posts/"+id,
-		method: "PUT",
-		headers: {
-		"content-type": "application/json",
-		},
+		url: "https://singlepageblogger.firebaseio.com/posts/"+id+"/.json",
+		type: "PUT",
 		data: saveData,
 		success: function(result){
 			performAjaxAll();
@@ -151,8 +149,8 @@ function performAjaxSaveEdit(saveData, id){
 
 function performAjaxDelete(id){
 	$.ajax({
-		url: "http://localhost:3000/posts/"+id,
-		method: "DELETE",
+		url: "https://singlepageblogger.firebaseio.com/posts/"+id+"/.json",
+		type: "DELETE",
 		success: function(result){
 			performAjaxAll();
 		},
@@ -165,8 +163,8 @@ function performAjaxDelete(id){
 
 function performAjaxShowEdit(id){
 	$.ajax({
-		url: "http://localhost:3000/posts/"+id,
-		method: "GET",
+		url: "https://singlepageblogger.firebaseio.com/posts/"+id+"/.json",
+		type: "GET",
 		success: function(result){
 			displayEdits(result);
 		},
@@ -183,14 +181,14 @@ function displayAll(data){
 	  "July", "August", "September", "October", "November", "December"
 	];
 	list.empty();
+
 	if (data != null){
-		for (var i=0; i<data.length; i++){
-			
-			var date = new Date(data[i].date);
-			console.log(date);
+		for (var i=0; i<Object.keys(data).length; i++){
+			var obj = Object.keys(data)[i];
+			var date = new Date(data[obj].date);
 			var postDate = monthNames[date.getMonth()] + " "+date.getDate() + " " +date.getFullYear();
 			//postDate.append();
-			list.append('<tr id="'+data[i].id+'"><td>'+data[i].title+'</td><td>'+data[i].body+'</td>'
+			list.append('<tr id="'+obj+'"><td>'+data[obj].title+'</td><td>'+data[obj].body+'</td>'
 			+'<td>'+postDate+'</td><td>'
 			+'<button type="button" class="btn btn-warning mRight edit" ><span class="glyphicon glyphicon-pencil"></span></button>'
 			+'<button type="button" class="btn btn-danger delete" ><span class="glyphicon glyphicon-trash"></span></button></td>');
@@ -223,9 +221,6 @@ function displayAll(data){
 		performAjaxShowEdit(id);
 	});
 	var selId = $("#selectedId")[0].innerHTML;
-	// if (selId != ""){
-	// // $("#"+selId).animate({backgroundColor: "#F89406", color: "#f9f9f9"}, 'slow');
-	// }
 }
 
 function displayEdits(data){
